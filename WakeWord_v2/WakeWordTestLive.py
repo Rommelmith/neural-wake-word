@@ -3,7 +3,8 @@ import torch
 import torch.nn as nn
 import torchaudio
 
-
+device ='cuda' if torch.cuda.is_available() else 'cpu'
+print(device)
 
 class WakeModel(nn.Module):
     def __init__(self):
@@ -53,6 +54,7 @@ class WakeModel(nn.Module):
 
 
 model = WakeModel()
+model.to(device)
 model.load_state_dict(torch.load('wake_model.pth'))
 model.eval()
 mel_transform = torchaudio.transforms.MelSpectrogram(sample_rate=16000, n_mels=80, n_fft=400, hop_length=160)
@@ -66,7 +68,7 @@ while True:
     audio = torch.tensor(audio, dtype=torch.float32).T
     spectrogram = mel_transform(audio)
     spectrogram = db_transform(spectrogram)
-    spectrogram = spectrogram.unsqueeze(0)
+    spectrogram = spectrogram.unsqueeze(0).to(device)
 
     with torch.no_grad():
         output = model(spectrogram)

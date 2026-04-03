@@ -6,6 +6,8 @@ import soundfile as sf
 import random
 import torch.nn as nn
 
+device = "cuda" if torch.cuda.is_available() else "cpu"
+print(device)
 
 
 class Dataset(Dataset):
@@ -16,8 +18,11 @@ class Dataset(Dataset):
             folder_path = os.path.join(base_path, folder)
 
             for file in os.listdir(folder_path):
-                file_path = os.path.join(folder_path, file)
-                self.data.append((file_path, label))
+                if file.__contains__(".gitkeep"):
+                    continue
+                else:
+                    file_path = os.path.join(folder_path, file)
+                    self.data.append((file_path, label))
 
 
     def __len__(self):
@@ -125,8 +130,9 @@ class WakeModel(nn.Module):
 
 
 model = WakeModel()
+model = model.to(device)
 if os.path.exists("wake_model.pth"):
-    model.load_state_dict(torch.load("wake_model.pth"))
+    model.load_state_dict(torch.load("wake_model.pth", map_location=device))
     print("Model loaded")
 else:
     print("No model found, starting fresh")
@@ -152,7 +158,8 @@ for epoch in range(num_epochs):
     total_loss = 0.0
 
     for images, labels in train_loader:
-        labels = labels.float().unsqueeze(1)
+        images = images.float().to(device)
+        labels = labels.float().unsqueeze(1).to(device)
         optimizer.zero_grad()
         outputs = model(images)
         loss = criterion(outputs, labels)
@@ -169,7 +176,8 @@ for epoch in range(num_epochs):
 
     with torch.no_grad():
         for images, labels in val_loader:
-            labels = labels.float().unsqueeze(1)
+            images = images.to(device)
+            labels = labels.float().unsqueeze(1).to(device)
             outputs = model(images)
             loss = criterion(outputs, labels)
             total_loss += loss.item()
@@ -187,7 +195,8 @@ neg_correct = 0
 neg_total = 0
 
 for images, labels in val_loader:
-    labels = labels.float().unsqueeze(1)
+    images = images.to(device)
+    labels = labels.float().unsqueeze(1).to(device)
     outputs = model(images)
     predictions = (outputs > 0.5).float()
 

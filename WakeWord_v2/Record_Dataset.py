@@ -17,7 +17,7 @@ time.sleep(3)
 for i in range(NUM_CLIPS):
     audio = sd.rec(frames=SR * DURATION, samplerate=SR, channels=1, dtype='float32')
     sd.wait()
-    filename = os.path.join(DST, f"silence_{i:04d}.wav")
+    filename = os.path.join(DST, f"random_{i:04d}.wav")
     sf.write(filename, audio, SR)
     print(f"Recorded {i + 1}/{NUM_CLIPS}")
 
