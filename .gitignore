@@ -9,11 +9,8 @@ dataset/negative/*
 !dataset/negative/.gitkeep
 
 *.wav
-*.pth
-*.pt
 __pycache__/
 *.pyc
-wake_word/
 venv/
 .venv/
 .idea/
