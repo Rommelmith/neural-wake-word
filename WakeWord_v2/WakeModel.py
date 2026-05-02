@@ -55,7 +55,7 @@ class Dataset(Dataset):
         return spectogram, label
 
 count = 0
-ds  = Dataset(r"C:\Users\romme\PycharmProjects\neural-wake-word\dataset")
+ds  = Dataset(r"../dataset")
 spec, label = ds[count]
 
 
@@ -144,8 +144,8 @@ val_size   = total - train_size
 
 train_set, val_set = random_split(ds, [train_size, val_size])
 
-train_loader = DataLoader(train_set, batch_size=32, shuffle=True)
-val_loader   = DataLoader(val_set,   batch_size=32, shuffle=False)
+train_loader = DataLoader(train_set, batch_size=32, shuffle=True, num_workers=4)
+val_loader   = DataLoader(val_set,   batch_size=32, shuffle=False, num_workers=4)
 
 criterion = nn.BCELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)

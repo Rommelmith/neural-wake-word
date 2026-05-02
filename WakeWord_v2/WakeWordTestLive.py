@@ -55,7 +55,7 @@ class WakeModel(nn.Module):
 
 model = WakeModel()
 model.to(device)
-model.load_state_dict(torch.load('wake_model.pth'))
+model.load_state_dict(torch.load('wake_model.pth', weights_only=False))
 model.eval()
 mel_transform = torchaudio.transforms.MelSpectrogram(sample_rate=16000, n_mels=80, n_fft=400, hop_length=160)
 db_transform = torchaudio.transforms.AmplitudeToDB(top_db=20, stype="power")
