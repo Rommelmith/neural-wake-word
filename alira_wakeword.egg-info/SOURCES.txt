@@ -1,0 +1,11 @@
+README.md
+pyproject.toml
+alira_wakeword/__init__.py
+alira_wakeword/detector.py
+alira_wakeword/model.py
+alira_wakeword/wake_model.pth
+alira_wakeword.egg-info/PKG-INFO
+alira_wakeword.egg-info/SOURCES.txt
+alira_wakeword.egg-info/dependency_links.txt
+alira_wakeword.egg-info/requires.txt
+alira_wakeword.egg-info/top_level.txt

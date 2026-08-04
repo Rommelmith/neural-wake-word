@@ -1,0 +1,20 @@
+[project]
+name = "alira-wakeword"
+version = "0.1.0"
+description = "ALIRA wake word detector"
+requires-python = ">=3.10"
+dependencies = [
+    "torch",
+    "torchaudio",
+    "sounddevice"
+]
+
+[tool.setuptools]
+packages = ["alira_wakeword"]
+
+[tool.setuptools.package-data]
+alira_wakeword = ["wake_model.pth"]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
